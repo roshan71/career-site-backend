@@ -29,7 +29,7 @@ let transporter = mailer.createTransport({
   });
 app.use(cors(corsOptions))
 // server configuration
-const PORT = 8080;
+const PORT = process.env.PORT ||8080;
 require('./dbConnection');
 
 app.get('/testCount',async(req,res)=>{
