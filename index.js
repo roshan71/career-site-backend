@@ -23,10 +23,11 @@ let transporter = mailer.createTransport({
     service: 'gmail',
     host: 'smtppro.zoho.in',
     auth: {
-      user: process.env.emailId, // generated ethereal user
-      pass: process.env.pass, // generated ethereal password
+      user: 'pkaran4252@gmail.com', // generated ethereal user
+      pass: 'idqjbamimjsdseab', // generated ethereal password
     },
   });
+console.log(process.env.emailId);
 app.use(cors(corsOptions))
 // server configuration
 const PORT = process.env.PORT ||8080;
