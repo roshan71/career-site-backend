@@ -64,7 +64,8 @@ app.get('/checkEmail',async(req,res)=>{
 });
 
 app.get('/', (req, res) => {
-const counts = {};
+try{
+    const counts = {};
 const sampleArray = req.query.answer.split(',');
 sampleArray.pop()
 sampleArray.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
@@ -174,6 +175,9 @@ fss.readFile(fileName, async function (err, data) {
 });
 res.header("Content-Type", "application/pdf");
 res.download(fileName)
+}
+}catch(e){
+    res.send(e);
 }
 //   res.download('./output/answer.pdf',req.query.name+' report.pdf');
 });
