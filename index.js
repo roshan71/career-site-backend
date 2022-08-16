@@ -19,14 +19,15 @@ const corsOptions ={
 }
 var mailer = require('nodemailer');
 const { TextAlignment } = require('pdf-lib');
-let transporter = mailer.createTransport({
-    service: 'gmail',
-    host: 'smtppro.zoho.in',
+
+  let transporter = mailer.createTransport({    
+    host: "smtpout.secureserver.net",  
+    port:587,
     auth: {
-      user: 'pkaran4252@gmail.com', // generated ethereal user
-      pass: 'idqjbamimjsdseab', // generated ethereal password
-    },
-  });
+        user: "ask@careerschool.in",
+        pass: "Sadhguru@2022" 
+    }
+}); 
 console.log(process.env.emailId);
 app.use(cors(corsOptions))
 // server configuration
@@ -157,13 +158,59 @@ let user = await User.updateOne({email:req.query.email},{reportSend:fileName});
 fss.readFile(fileName, async function (err, data) {
     console.log("s;s");
    await transporter.sendMail({       
-        sender: 'sender@sender.com',
+       from: 'ask@careerschool.in',
         to: req.query.email,
-        subject: 'Attachment!',
-        body: 'mail content...',
-        attachments: [{'filename': fileName, 'content': data}]
+        subject: 'Your Career Superpower Report',
+        html:`
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Hey,</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Congratulation once again for discovering your Career Superpower.</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Here is your detailed 4 page report. (In the attachment)</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Read through the report &amp; save it for your future reference.</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Knowing what you are is the starting point of journey towards successful Career.</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">We, from Career School Wish you the best for your successful Career &amp; bright future.</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Claim your Free 30 Minutes Career Clarity Session with Expert Now&nbsp;</span></span></span></p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Clcik Here - </span></span></span><a href="https://calendly.com/free-career-consultation/with-student-success-coach" style="text-decoration:none"><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#1155cc"><u>https://calendly.com/free-career-consultation/with-student-success-coach</u></span></span></span></a></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">P.S - Would love to receive your feedback on this Assesment. Please share your views by writing us at </span></span></span><a href="mailto:ask@careerschool.in" style="text-decoration:none"><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#1155cc"><u>ask@careerschool.in</u></span></span></span></a></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000"><strong>Thank you,</strong></span></span></span></p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Always to Your Success &amp; Career Growth</span></span></span></p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Helping 100s of Students &amp; early age working professionals create strong foundation for Successful Career</span></span></span></p>
+        
+        <p>&nbsp;</p>
+        
+        <p><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#000000">Join the growing community of Successful Career Aspirants - </span></span></span><a href="https://www.facebook.com/groups/smartcareeracademy" style="text-decoration:none"><span style="font-size:11pt"><span style="font-family:Arial"><span style="color:#1155cc"><u>https://www.facebook.com/groups/smartcareeracademy</u></span></span></span></a></p>
+        
+        <p>&nbsp;</p>
+        `,
+        attachments: [{'filename': userName+" _ Career Superpower Report.pdf", 'content': data}]
     }), function(err, success) {
-        console.log('aaa');
+        console.log('aaa$e');
         if (err) {
             // Handle error
             console.log("error");
@@ -171,8 +218,9 @@ fss.readFile(fileName, async function (err, data) {
         if(success){
             console.log("sice");
         }
-
+        console.log("SENDED MAIL");
    }
+   console.log("=====");
 });
 res.header("Content-Type", "application/pdf");
 res.download(fileName)
