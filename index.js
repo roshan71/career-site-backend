@@ -65,7 +65,7 @@ app.get('/checkEmail',async(req,res)=>{
     }
 });
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
 try{
     const counts = {};
 const sampleArray = req.query.answer.split(',');
@@ -80,6 +80,18 @@ console.log('-1--1-1-1-1--1-1-')
 console.log(counts)
 console.log(Math.max.apply(Math,value))
 console.log('*/*/*/')
+let user = await User.findOne({email:req.query.email});
+if(user){
+    console.log('aa',user.id);
+    const result =await user.updateMany({email:req.query.email},{$set:{name:"sampleArray"}},(err,res)=>{
+        if(err)
+        console.log(err)
+        if(res)
+        console.log(res)
+        
+    });
+    console.log(result);
+}
 switch(Math.max.apply(Math,value)){
     
     case 2: console.log("Case 2 || 2 same");
