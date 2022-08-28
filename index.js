@@ -73,13 +73,7 @@ sampleArray.pop()
 sampleArray.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
 const value=Object.values(counts)
 var same=[]
-console.log(value)
-console.log('-0-0-0-0-')
-console.log(sampleArray)
-console.log('-1--1-1-1-1--1-1-')
-console.log(counts)
-console.log(Math.max.apply(Math,value))
-console.log('*/*/*/')
+
 
 switch(Math.max.apply(Math,value)){
     
