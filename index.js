@@ -8,6 +8,7 @@ const fs = require('fs/promises');
 const User = require('./userModel');
 var fss = require('fs');
 
+const reader = require('xlsx')
 const PDFDocument = PDFLib.PDFDocument;
 // create new express app and save it as "app"
 const app = express();
@@ -217,13 +218,38 @@ fss.readFile(fileName, async function (err, data) {
    }
    console.log("=====");
 });
-res.header("Content-Type", "application/pdf");
 res.download(fileName)
 }
 }catch(e){
     res.send(e);
 }
 //   res.download('./output/answer.pdf',req.query.name+' report.pdf');
+});
+
+app.get('/download/e51f168933b691d22c3f7331db218b67a9f5f750d0363bc04cff2c475e625432693df733281f14dda2b1de72a8f3d7dc916c6896d148873b7deac59682f8d64ef52040a8fed95b54ad2cd58b2625b8b8',async(req,res)=>{
+    const ExcelJS = require('exceljs');
+const workbook = new ExcelJS.Workbook();
+const sheet = workbook.addWorksheet('UserData');
+// keep {} where you wan to skip the column
+sheet.columns = [{key: '_id', header: 'ID'}, {key: 'name', header: 'Name'},{key: 'email', header: 'Email'},];
+// keep {} where you wan to skip the row
+let user = await User.find();
+user.forEach((item, i) => {
+  sheet.addRow(item);
+});
+
+await workbook.xlsx.writeFile('userData.xlsx').then(() => {
+    var fileName = 'UserData.xlsx';
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+    workbook.xlsx.write(res).then(function(){
+        res.end();
+    });
+
+    
+});
+    //res.send({"res":"Something went Wrong"});
 });
 
 // make the server listen to requests
