@@ -5,7 +5,7 @@ const fs = require('fs/promises');
 const PDFDocument = PDFLib.PDFDocument;
 // These should be Uint8Arrays or ArrayBuffers
 // This data can be obtained in a number of different ways
-// If your running in a Node environment, you could use fs.readFile()
+// If your running in a Node environment, youasasas could use fs.readFile()
 // In the browser, you could make a fetch() call and use res.arrayBuffer()
 async function createPDF(){
     const formPdfBytes = await fs.readFile("./output/test.pdf")
