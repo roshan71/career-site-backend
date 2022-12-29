@@ -71,6 +71,7 @@ app.get("/checkEmail", async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
+     res.header("Access-Control-Allow-Origin", "*");
     const counts = {};
     const sampleArray = req.query.answer.split(",");
     sampleArray.pop();
@@ -149,10 +150,11 @@ app.get("/", async (req, res) => {
       }
       if (counts["2"]) {
         console.log("Priority goes to 2");
-
+        var eee=req.query.answer.split(",");
+        
         createPDF(
           "./output/answer" +
-            getKeyByValue(counts, Math.max.apply(Math, value)) +
+          eee[5] +
             ".pdf",
           req.query.name
         );
@@ -169,9 +171,10 @@ app.get("/", async (req, res) => {
         return;
       }
       if (counts["3"]) {
+        var eee=req.query.answer.split(",");
+       
         createPDF(
-          "./output/answer" +
-            getKeyByValue(counts, Math.max.apply(Math, value)) +
+          "./output/answer" +eee[5]+
             ".pdf",
           req.query.name
         );
@@ -205,11 +208,12 @@ app.get("/", async (req, res) => {
       await fs.writeFile(fileName, pdfBytes);
       let user = await User.updateOne(
         { email: req.query.email },
-        { reportSend: fileName }
+        { reportSend: fileName } 
       );
       fss.readFile(fileName, async function (err, data) {
         console.log("s;s");
-        await transporter.sendMail({
+       try{
+         await transporter.sendMail({
           from: "ask@careerschool.in",
           to: req.query.email,
           subject: "Your Career Superpower Report",
@@ -278,6 +282,9 @@ app.get("/", async (req, res) => {
             }
             console.log("SENDED MAIL");
           };
+       }catch(e){
+        console.log(e);
+       }
         console.log("=====");
       });
       res.download(fileName);
